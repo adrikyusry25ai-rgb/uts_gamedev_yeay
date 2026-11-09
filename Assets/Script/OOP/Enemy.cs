@@ -93,7 +93,7 @@ public class Enemy : MonoBehaviour
 
     void PerilakuPatrol()
     {
-        Debug.Log("Enemy sedang PATROL");
+        // Debug.Log("Enemy sedang PATROL");
     }
 
     void PerilakuChase()
