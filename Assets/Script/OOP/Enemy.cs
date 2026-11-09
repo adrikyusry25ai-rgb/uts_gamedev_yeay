@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour
     // State Now
     private StateZombie state = StateZombie.IDLE;
     private float waktuSerangTerakhir;
+    private bool sudahMenyerang = false;
+
 
     // Action<Enemy> = delegate siap pakai, parameter-nya adalah zombie yang mati.
     public static event Action<Enemy> OnZombieMati;
@@ -125,15 +127,21 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+
+void OnTriggerEnter2D(Collider2D other)
+{
+    if (sudahMenyerang) return;
+
+    if (other.CompareTag("Player"))
     {
-        if (other.CompareTag("Player"))
+        IDamageable playerScript = other.GetComponent<IDamageable>();
+        if (playerScript != null)
         {
-            IDamageable playerScript = other.GetComponent<IDamageable>();
-            if (playerScript != null)
-            {
-                playerScript.KenaDamage(damageSaatTabrakan);
-            }
+            sudahMenyerang = true;
+            Serang();                                   
+            playerScript.KenaDamage(damageSaatTabrakan);
+            Mati();                           
         }
     }
+}
 }
